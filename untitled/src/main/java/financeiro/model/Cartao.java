@@ -1,5 +1,8 @@
 package financeiro.model;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 public class Cartao {
     private UUID id;
     private String nome;
