@@ -18,4 +18,13 @@ public class Card {
         this.closingDate = closingDate;
         this.dueDate = dueDate;
     }
+
+    public BigDecimal getLimit(){
+        return limit;
+    }
+
+    public UUID getId(){
+        return id;
+    }
+
 }

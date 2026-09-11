@@ -24,12 +24,16 @@ public class Transaction {
         this.card = card;
     }
 
-    public TransactionType getType(){
-        return type;
+    public UUID getId(){
+        return id;
     }
 
     public BigDecimal getAmount(){
         return amount;
+    }
+
+    public TransactionType getType(){
+        return type;
     }
 
     public LocalDate getDate(){
