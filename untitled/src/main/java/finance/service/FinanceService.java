@@ -21,6 +21,7 @@ public class FinanceService {
 
     public BigDecimal calculateBalance(){
         BigDecimal balance = BigDecimal.ZERO;
+
          for (Transaction transaction : transactions) {
              if (transaction.getType() == TransactionType.INCOME) {
                  balance = balance.add(transaction.getAmount());
@@ -46,6 +47,7 @@ public class FinanceService {
 
     public BigDecimal calculateCurrentInvoice(){
         BigDecimal currentInvoice = BigDecimal.ZERO;
+
         for (Transaction transaction : transactions){
             if (transaction.getType() == TransactionType.EXPENSE && transaction.isCard()){
                 currentInvoice = currentInvoice.add(transaction.getAmount());
