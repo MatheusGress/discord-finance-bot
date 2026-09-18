@@ -1,7 +1,12 @@
 package finance.service;
 
+import finance.model.Card;
 import finance.model.TransactionType;
 import finance.model.Transaction;
+import finance.strategy.BalanceStrategy;
+import finance.strategy.CalculationStrategy;
+import finance.strategy.CurrentInvoiceStrategy;
+import finance.strategy.MonthlyExpenseStrategy;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,39 +25,17 @@ public class FinanceService {
     }
 
     public BigDecimal calculateBalance(){
-        BigDecimal balance = BigDecimal.ZERO;
-
-         for (Transaction transaction : transactions) {
-             if (transaction.getType() == TransactionType.INCOME) {
-                 balance = balance.add(transaction.getAmount());
-             } else if (transaction.getType() == TransactionType.EXPENSE){
-                 balance = balance.subtract(transaction.getAmount());
-             }
-         }
-         return balance;
+        CalculationStrategy strategy = new BalanceStrategy();
+        return strategy.calculate(transactions);
     }
 
     public BigDecimal calculateMonthlyExpenses(){
-        BigDecimal total = BigDecimal.ZERO;
-        LocalDate currentDate = LocalDate.now();
-
-        for (Transaction transaction : transactions){
-            LocalDate transactionDate = transaction.getDate();
-                if (transaction.getType() == TransactionType.EXPENSE && transactionDate.getMonthValue() == currentDate.getMonthValue() && transactionDate.getYear() == currentDate.getYear()){
-                total = total.add(transaction.getAmount());
-                }
-        }
-        return total;
+        CalculationStrategy strategy = new MonthlyExpenseStrategy();
+        return strategy.calculate(transactions);
     }
 
-    public BigDecimal calculateCurrentInvoice(){
-        BigDecimal currentInvoice = BigDecimal.ZERO;
-
-        for (Transaction transaction : transactions){
-            if (transaction.getType() == TransactionType.EXPENSE && transaction.isCard()){
-                currentInvoice = currentInvoice.add(transaction.getAmount());
-            }
-        }
-        return currentInvoice;
+    public BigDecimal calculateCurrentInvoice(Card card){
+        CalculationStrategy strategy = new CurrentInvoiceStrategy(card);
+        return strategy.calculate(transactions);
     }
 }
