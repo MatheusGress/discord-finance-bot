@@ -15,7 +15,6 @@ public class Transaction {
 
 
     public Transaction(UUID id, BigDecimal amount, TransactionType type, Category category, String description, LocalDate date, Card card){
-        this.id = id;
         this.amount = amount;
         this.type = type;
         this.category = category;
